@@ -65,10 +65,10 @@ async function updateGames(games) {
             homeTeam: game.teams.home.team.name,
             awayTeam: game.teams.away.team.name,
             status: game.status.detailedState,
-            score: game.status.statusCode === "F" ? {
+            score: {
                 home: game.teams.home.score,
                 away: game.teams.away.score
-            } : null,
+            },
             winner: game.status.statusCode === "F" ? (game.teams.home.score > game.teams.away.score ? "home" : "away") : null,
         }));
 
