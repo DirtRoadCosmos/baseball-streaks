@@ -60,9 +60,9 @@
                     if (team.currentOrNextGame.status === 'In Progress') {
                         const scoreInfo = document.createElement('p');
                         scoreInfo.textContent = `In Progress: $ {
-                            team.currentOrNextGame.score.home
-                        } - $ {
                             team.currentOrNextGame.score.away
+                        } - $ {
+                            team.currentOrNextGame.score.home
                         }`;
                         teamCard.appendChild(scoreInfo);
                     } else {

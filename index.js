@@ -38,7 +38,7 @@ async function updateDb() {
 async function retreiveGameData() {
     const startDate = dayjs().subtract(3, 'days').format('YYYY-MM-DD');
     const endDate = dayjs().add(7, 'days').format('YYYY-MM-DD');
-    //https://statsapi.mlb.com/api/v1/schedule/games/?sportId=1&startDate=${startDate}
+    // https://statsapi.mlb.com/api/v1/schedule/games/?sportId=1&startDate=2023-03-31&endDate=2023-03-31
     const url = `https://statsapi.mlb.com/api/v1/schedule/games/?sportId=1&startDate=${startDate}&endDate=${endDate}`;
     const response = await fetch(url);
     const data = await response.json();
@@ -134,13 +134,13 @@ async function updateTeamWinStreaks() {
                 $or: [{
                         homeTeam: team.name,
                         status: {
-                            $in: ["In Progress", "Scheduled", "Pre-Game"]
+                            $in: ["In Progress", "Scheduled", "Pre-Game", "Warmup"]
                         }
                     },
                     {
                         awayTeam: team.name,
                         status: {
-                            $in: ["In Progress", "Scheduled", "Pre-Game"]
+                            $in: ["In Progress", "Scheduled", "Pre-Game", "Warmup"]
                         }
                     },
                 ],
