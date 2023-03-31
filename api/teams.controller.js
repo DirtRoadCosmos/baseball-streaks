@@ -9,11 +9,6 @@ export default class TeamsController {
             filters
         })
 
-        let response = {
-            teams: teamsList,
-            filters: filters,
-            total_results: totalNumTeams
-        }
-        res.json(response);
+        res.json(teamsList);
     }
 }

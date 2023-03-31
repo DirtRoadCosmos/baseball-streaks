@@ -278,4 +278,4 @@ const mlbTeams = [{
     },
 ];
 
-insertMlbTeams();
+// insertMlbTeams();

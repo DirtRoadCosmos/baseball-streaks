@@ -1,7 +1,7 @@
 let teams
 
 export default class TeamsDAO {
-    static async injectDB(conn) {
+    static async initializeDAO(conn) {
         if (teams) {
             return
         }
@@ -31,7 +31,7 @@ export default class TeamsDAO {
         // run the query
         let cursor
         try {
-            cursor = await teams.find(query)
+            cursor = await teams.find(query);
             const teamsList = await cursor.toArray()
             const totalNumTeams = await teams.countDocuments(query)
             return { teamsList, totalNumTeams }
