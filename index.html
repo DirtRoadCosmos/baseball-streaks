@@ -43,8 +43,9 @@
                 }
                 const teamCard = document.createElement('div');
                 teamCard.className = 'team-card';
-                teamCard.style.borderColor = team.secondaryColor;
-                teamCard.style.backgroundColor = team.primaryColor;
+                teamCard.style.borderColor = `#${team.secondaryColor}`;
+                teamCard.style.color =  `#${team.secondaryColor}`;
+                teamCard.style.backgroundColor = `#${team.primaryColor}`;
 
                 const teamName = document.createElement('h3');
                 teamName.textContent = `${team.name} - Win Streak: ${team.winStreak}`;
