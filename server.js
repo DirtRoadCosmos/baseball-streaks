@@ -2,7 +2,7 @@ import express from "express"
 import cors from "cors"
 import path from "path"
 import { fileURLToPath } from "url"
-import teams from "../backend/api/teams.route.js"
+import teams from "./api/teams.route.js"
 
 const app = express()
 

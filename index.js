@@ -3,7 +3,7 @@ import {
     MongoClient
 } from "mongodb"
 import dotenv from "dotenv"
-import TeamsDAO from "../backend/dao/teamsDAO.js"
+import TeamsDAO from "./dao/teamsDAO.js"
 import fetch from "node-fetch"
 import dayjs from "dayjs"
 
