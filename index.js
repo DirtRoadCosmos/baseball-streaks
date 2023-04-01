@@ -118,11 +118,12 @@ async function updateTeamWinStreaks() {
                     ]
                 }]
             }).sort({
-                gameId: -1
+                gameId: 1
             }).toArray();
 
             let winStreak = 0;
             for (const game of completedGames) {
+                // console.log(game)
                 if (game.winner === (game.homeTeam === team.name ? "home" : "away")) {
                     winStreak++;
                 } else {
