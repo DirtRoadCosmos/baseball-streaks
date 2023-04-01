@@ -18,7 +18,7 @@
 
 <body>
     <div class="container">
-        <h1 class="text-center my-4">Baseball Streaks</h1>
+        <h1 class="text-center my-4">MLB Win Streaks</h1>
         <div id="teams-container"></div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
@@ -53,35 +53,79 @@
                 teamCard.style.borderColor = `#${team.secondaryColor}`;
                 teamCard.style.color = `#${team.secondaryColor}`;
                 teamCard.style.backgroundColor = `#${team.primaryColor}`;
+                teamCard.style.display = 'flex';
+                teamCard.style.height = '150px'; // Set the height of the teamCard
+                teamCard.style.cursor = 'pointer';
 
-                const teamName = document.createElement('h3');
-                teamName.textContent = `${team.name} - Win Streak: ${team.winStreak}`;
-                teamCard.appendChild(teamName);
+                const winStreakContainer = document.createElement('div');
+                winStreakContainer.style.width = '150px';
+                winStreakContainer.style.height = '100%';
+                winStreakContainer.style.display = 'flex';
+                winStreakContainer.style.justifyContent = 'center';
+                winStreakContainer.style.alignItems = 'center';
+
+                const winStreakNumber = document.createElement('span');
+                winStreakNumber.textContent = `${team.winStreak}`;
+                winStreakNumber.style.fontSize = '96px'; // Set the font size of the win streak number
+                winStreakContainer.appendChild(winStreakNumber);
+                teamCard.appendChild(winStreakContainer);
+
+                const teamInfoContainer = document.createElement('div');
+                teamInfoContainer.style.height = '100%';
+teamInfoContainer.style.display = 'flex';
+teamInfoContainer.style.flexDirection = 'column';
+teamInfoContainer.style.justifyContent = 'center';
+teamInfoContainer.style.alignItems = 'flex-start';
+
+                const teamName = document.createElement('h2');
+                teamName.textContent = `${team.name}`;
+                teamInfoContainer.appendChild(teamName);
 
                 if (team.currentOrNextGame) {
-                    const gameInfo = document.createElement('p');
-                    gameInfo.textContent =
-                        `${team.currentOrNextGame.awayTeam} @ ${team.currentOrNextGame.homeTeam}`;
-                    teamCard.appendChild(gameInfo);
-
+                    const isHome = team.name === team.currentOrNextGame.homeTeam;
                     if (team.currentOrNextGame.status === 'In Progress') {
-                        const scoreInfo = document.createElement('p');
-                        scoreInfo.textContent = `In Progress: ${
-                            team.currentOrNextGame.score.away
-                        } - ${
-                            team.currentOrNextGame.score.home
-                        }`;
-                        teamCard.appendChild(scoreInfo);
+                        const happeningNow = document.createElement('h6');
+                        happeningNow.textContent = 'Playing now ';
+                        happeningNow.textContent += (isHome ?
+                            `vs ${team.currentOrNextGame.awayTeam}` :
+                            `@ ${team.currentOrNextGame.homeTeam}`);
+                        teamInfoContainer.appendChild(happeningNow);
+
+                        // const opponent = document.createElement('h6');
+                        // opponent.textContent = (isHome ?
+                        //     `vs ${team.currentOrNextGame.awayTeam}` :
+                        //     `@ ${team.currentOrNextGame.homeTeam}`);
+                        // teamInfoContainer.appendChild(opponent);
+
+                        const scoreInfo = document.createElement('h3');
+                        scoreInfo.textContent =
+                            `${team.currentOrNextGame.score.away} - ${team.currentOrNextGame.score.home}`;
+                        scoreInfo.style.marginBottom = "0px";
+                        teamInfoContainer.appendChild(scoreInfo);
                     } else {
-                        const gameInfo = document.createElement('p');
-                        gameInfo.textContent = dayjs(team.currentOrNextGame.firstPitch).calendar();
-                        teamCard.appendChild(gameInfo);
+                        const happeningNow = document.createElement('h6');
+                        happeningNow.textContent = 'Next game ';
+                        happeningNow.textContent += (isHome ?
+                            `vs ${team.currentOrNextGame.awayTeam}` :
+                            `@ ${team.currentOrNextGame.homeTeam}`);
+                        teamInfoContainer.appendChild(happeningNow);
+
+                        const gameTimeInfo = document.createElement('h6');
+                        gameTimeInfo.textContent = dayjs(team.currentOrNextGame.firstPitch).calendar();
+                        gameTimeInfo.style.marginBottom = "0px";
+                        teamInfoContainer.appendChild(gameTimeInfo);
                     }
                 } else {
                     const noGameInfo = document.createElement('p');
                     noGameInfo.textContent = 'No upcoming game found';
-                    teamCard.appendChild(noGameInfo);
+                    teamInfoContainer.appendChild(noGameInfo);
                 }
+
+                
+                teamCard.appendChild(teamInfoContainer);
+                teamCard.addEventListener('click', () => {
+    window.location.href = `https://www.mlb.com/gameday/${team.currentOrNextGame.gameId}/live`;
+});
                 container.appendChild(teamCard);
             });
         }
