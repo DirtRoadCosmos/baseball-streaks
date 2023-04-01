@@ -25,7 +25,7 @@
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/relativeTime.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/utc.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/calendar.js"></script>
-<script>
+    <script>
         dayjs.extend(window.dayjs_plugin_relativeTime);
         dayjs.extend(window.dayjs_plugin_utc);
         dayjs.extend(window.dayjs_plugin_calendar);
@@ -35,6 +35,13 @@
         async function fetchTeams() {
             const response = await fetch('/api/v1/teams');
             const teams = await response.json();
+            teams.sort((a, b) => {
+                if (a.winStreak === b.winStreak) {
+                    return a.name < b.name ? -1 : 1
+                } else {
+                    return a.winStreak < b.winStreak ? 1 : -1
+                }
+            })
             const container = document.getElementById('teams-container');
             teams.forEach(team => {
                 console.log(team);
@@ -44,7 +51,7 @@
                 const teamCard = document.createElement('div');
                 teamCard.className = 'team-card';
                 teamCard.style.borderColor = `#${team.secondaryColor}`;
-                teamCard.style.color =  `#${team.secondaryColor}`;
+                teamCard.style.color = `#${team.secondaryColor}`;
                 teamCard.style.backgroundColor = `#${team.primaryColor}`;
 
                 const teamName = document.createElement('h3');
