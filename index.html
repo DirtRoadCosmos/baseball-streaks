@@ -51,6 +51,7 @@
                 const teamCard = document.createElement('div');
                 teamCard.className = 'team-card';
                 teamCard.style.borderColor = `#${team.secondaryColor}`;
+                teamCard.style.borderWidth = '3px';
                 teamCard.style.color = `#${team.secondaryColor}`;
                 teamCard.style.backgroundColor = `#${team.primaryColor}`;
                 teamCard.style.display = 'flex';
@@ -83,6 +84,9 @@ teamInfoContainer.style.alignItems = 'flex-start';
 
                 if (team.currentOrNextGame) {
                     const isHome = team.name === team.currentOrNextGame.homeTeam;
+                    const homeTeamObj = teams.find(t => t.name === team.currentOrNextGame.homeTeam)
+                    const awayTeamObj = teams.find(t => t.name === team.currentOrNextGame.awayTeam)
+                    console.log(homeTeamObj)
                     if (team.currentOrNextGame.status === 'In Progress') {
                         const happeningNow = document.createElement('h6');
                         happeningNow.textContent = 'Playing now ';
@@ -99,7 +103,8 @@ teamInfoContainer.style.alignItems = 'flex-start';
 
                         const scoreInfo = document.createElement('h3');
                         scoreInfo.textContent =
-                            `${team.currentOrNextGame.score.away} - ${team.currentOrNextGame.score.home}`;
+                            `${awayTeamObj.abbreviation} ${team.currentOrNextGame.score.away} - `
+                            + `${homeTeamObj.abbreviation} ${team.currentOrNextGame.score.home}`;
                         scoreInfo.style.marginBottom = "0px";
                         teamInfoContainer.appendChild(scoreInfo);
                     } else {

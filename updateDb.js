@@ -4,19 +4,38 @@ import dotenv from "dotenv"
 dotenv.config()
 const MongoClient = mongodb.MongoClient
 
-// Connection URL and database name
-const url = process.env.RESTREVIEWS_DB_URI;
+const uri = process.env.STREAKS_DB_URI;
 const dbName = "baseball";
 
+function main() {
+    // updateTeamColors("NYY", "0C2340", "dddddd")
+    // updateTeamColors("SFG", "FD5A1E", "222222")
+}
+
+async function updateTeamColors(teamAbbreviation, primaryColor, secondaryColor) {
+    try {
+      const client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+      const db = client.db(dbName);
+      const teamsCollection = db.collection("teams");
+  
+      const filter = { abbreviation: teamAbbreviation };
+      const update = { $set: { primaryColor: primaryColor, secondaryColor: secondaryColor } };
+  
+      const result = await teamsCollection.updateOne(filter, update);
+      console.log(`Successfully updated team colors for ${teamAbbreviation}:`, result.modifiedCount);
+  
+      client.close();
+    } catch (error) {
+      console.error("Error updating team colors:", error);
+    }
+  }
 
 async function insertMlbTeams() {
-    const client = new MongoClient(url, {
-        useUnifiedTopology: true
-    });
+
 
     try {
         // Connect to MongoDB
-        await client.connect();
+        const client = await MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
         // Get the collection and insert the MLB teams
         const db = client.db(dbName);
@@ -278,4 +297,4 @@ const mlbTeams = [{
     },
 ];
 
-// insertMlbTeams();
+main()
